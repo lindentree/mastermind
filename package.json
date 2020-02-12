@@ -1,0 +1,23 @@
+{
+  "name": "mastermind",
+  "version": "1.0.0",
+  "description": "CLI mastermind game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lindentree/mastermind.git"
+  },
+  "author": "Linden Chiu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lindentree/mastermind/issues"
+  },
+  "homepage": "https://github.com/lindentree/mastermind#readme",
+  "dependencies": {
+    "prompt": "^1.0.0"
+  }
+}
