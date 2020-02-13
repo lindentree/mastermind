@@ -9,5 +9,10 @@ test(`Users' guesses should be 4 valid digits`, () => {
   expect(utils.guessValidator('1234', 7)).toBe(true);
   expect(utils.guessValidator('6666', 6)).toBe(true);
   expect(utils.guessValidator('123', 7)).not.toBe(true);
-  expect(utils.guessValidator('7778', 8)).not.toBe(true);
+  expect(utils.guessValidator('7779', 8)).not.toBe(true);
+});
+
+test(`The numArray should be mapped to a count object`, () => {
+  expect(utils.mapArrToCountObj([1,2,2,4])).toEqual({1:1, 2:2, 4:1});
+  
 });

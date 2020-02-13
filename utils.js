@@ -42,11 +42,25 @@ const randomNumGenerator = async () => {
   
 };
 
+const mapArrToCountObj = arr => {
+  let mapObj = {};
+  for (let i = 0; i < arr.length; i += 1) {
+    if (mapObj[arr[i]]===undefined) {
+      mapObj[arr[i]] = 1;
+    } else {
+      mapObj[arr[i]] += 1;
+    }
+  }
+
+  return mapObj;
+}
+
 
 module.exports = {
   parseStrIntoNums,
   guessValidator,
-  randomNumGenerator
+  randomNumGenerator,
+  mapArrToCountObj
 }
 
 

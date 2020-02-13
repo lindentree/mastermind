@@ -5,6 +5,8 @@ const term = require('terminal-kit').terminal;
 const rng = require('./rng');
 const utils = require('./utils');
 
+//this module handles user prompts and game flow
+
 
 let puzzle = null;
 let limit = 7; //change depending on difficulty setting
