@@ -58,7 +58,34 @@ const mapArrToCountObj = arr => {
 }
 
 const mastermindWin = (arr1, arr2) => {
+    let loc = 0;
+    let cor = 0;
+    
+    for (let i = 0; i < arr2.length; i += 1) {
 
+      
+
+      let mapPuzzle = mapArrToCountObj(arr1);
+      console.log(loc, mapPuzzle);
+
+      if (arr2[i]===arr1[i]) {
+        console.log('hm', loc)
+        loc += 1;
+        mapPuzzle[arr2[i]] -= 1;
+      } else if (arr2[i]!==arr1[i] && mapPuzzle[arr2[i]]!==undefined) {
+        cor += 1;
+        mapPuzzle[arr2[i]] -= 1;
+
+      } else {
+        continue;
+      }
+    }
+
+    if(loc===4) {
+      return true;
+     }
+
+    return false;
 }
 
 
@@ -67,7 +94,8 @@ module.exports = {
   parseStrIntoNums,
   guessValidator,
   randomCodeGenerator,
-  mapArrToCountObj
+  mapArrToCountObj,
+  mastermindWin
 }
 
 

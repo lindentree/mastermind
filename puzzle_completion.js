@@ -21,16 +21,12 @@ class Puzzle {//pass in arrays
 
     }
     this.guessFeedback = '';
-    this.allGuesses = this.allGuesses || {};
+    
 
   }
   
-  checkGuess () {
+  checkGuess (cache) {
 
-  if(this.location===4) {
-    return this.feedbackOptions[7];
-  }
-    
   for (let i = 0; i < this.puzzle.length; i += 1) {
 
     this.guessFeedback = '';
@@ -39,29 +35,28 @@ class Puzzle {//pass in arrays
       let mapPuzzle = utils.mapArrToCountObj(this.puzzle);
       console.log(mapPuzzle);
 
-      if (this.guess[i]===this.puzzle[i] && this.guess[i]) {
+      if (this.guess[i]===this.puzzle[i]) {
         this.location += 1;
-        mapPuzzle[this.guess[i]] -= 1;
-      } else if (this.guess[i]!==this.puzzle[i] && mapPuzzle[this.guess[i]]) {
+        mapPuzzle[arr2[i]] -= 1;
+      } else if (this.guess[[i]]!==this.puzzle[i] && mapPuzzle[this.guess[i]]!==undefined) {
         this.correct += 1;
         mapPuzzle[this.guess[i]] -= 1;
 
-      } else {
-        continue;
-      }
+      } 
+  }
+
+
+    if(this.location===4) {
+      return this.feedbackOptions[7];
     }
+    
 
     console.log([this.correct, this.location]);
     this.constructFeedback();
-    this.allGuesses[this.guess] = this.guessFeedback; 
+    cache[this.guess] = this.guessFeedback; 
    
   }
 
-
-  showAllGuesses () {
-    //console.log(JSON.stringify(this.allGuesses, null, 1));
-    console.dir(this.allGuesses);
-  }
 
   constructFeedback () {
     if (this.correct === 1 && this.location === 0) {

@@ -55,9 +55,9 @@ const promptUser = () => {
       console.log('double', puzzle);
 
       let puzzleObj = new Puzzle(activeCode, guess);
-      puzzleObj.checkGuess();
-      puzzleObj.showAllGuesses();
+      puzzleObj.checkGuess(allGuesses);
       countdown -= 1;
+      console.log(allGuesses);
       console.log(`You have ${countdown} guesses remaining.`)
       promptUser();
 
