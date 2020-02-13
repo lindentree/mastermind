@@ -1,10 +1,10 @@
-This is an implementation of the code game Mastermind with a command-line interface, built in Node.
+This is an implementation of the code game Mastermind with a command-line interface, built in Node.js.
 
 # Setup
 
 This project requires Node.js to run. (https://nodejs.org/en/download/).
 
-Steps:
+Steps to run:
 
 1. `git clone` this repo
 2. `cd` into the directory 

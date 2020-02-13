@@ -1,48 +1,63 @@
+//'use strict';
 //check guesses against puzzle
 //output feedback, eg correct numbers, correct numbers and locations, completely wrong etc.
 const utils = require('./utils');
 
-function puzzleCheck(puzzle, guess) {//pass in arrays
+
+
+const Puzzle = function(puzzle, guess) {//pass in arrays
+
+  this.puzzle = puzzle;
+  this.guess = guess
+  this.correct = 0;
+  this.location = 0;
+  this.guessFeedback = '';
+  this.mapPuzzle = utils.mapArrToCountObj(this.puzzle);
+
+  
 
   const feedbackOptions = {
 
-    1: `You got ${x} of the numbers correct!`,
-    2: `You got ${location} of the numbers in the right spot!`,
+    1: `You got ${this.correct} of the numbers correct!`,
+    2: `You got ${this.location} of the numbers in the right spot!`,
     3: `All the numbers you guessed were wrong.`,
-    4: `You solved it! Congratulations`
-
-  }
-
-  this.puzzle = puzzle;
-  let x = 1;
-  let location = 0;
-  let guessFeedback = '';
-  this.allGuesses = {};
-
-  this.checkGuess = function() {
-    for (let i = 0; i < this.puzzle.length; i += 1) {
-      if (guess[i]===this.puzzle[i]) {
-        location += 1;
-      }
-    }
-
-    this.allGuesses[guess] = guessFeedback;
-  }
-
-  this.showAllGuesses = function() {
-
-  }
-
-  this.constructFeedback = function() {
-
-  }
-
-
-
-  this.displayFeedback = function() {
+    4: `You solved it! Congratulations!`
 
   }
 
 }
 
-module.exports = puzzleCheck;
+Puzzle.prototype.checkGuess = function() {
+    
+    for (let i = 0; i < this.puzzle.length; i += 1) {
+      if (this.guess[i]===this.puzzle[i]) {
+        this.location += 1;
+        this.mapPuzzle[this.guess[i]] -= 1;
+      } else if (this.guess[i]!==this.puzzle[i] && this.mapPuzzle[this.guess[i]]) {
+        this.correct += 1;
+        this.mapPuzzle[this.guess[i]] -= 1;
+
+      }
+    }
+
+    console.log([this.correct, this.location]);
+    return [this.correct, this.location];
+}
+
+Puzzle.prototype.showAllGuesses = function() {
+
+}
+
+Puzzle.prototype.constructFeedback = function() {
+
+}
+
+Puzzle.prototype.displayFeedback = function() {
+
+}
+
+let test = new Puzzle([1, 2, 3, 2], [2, 2, 2, 2]);
+
+test.checkGuess();
+
+module.exports = Puzzle;
