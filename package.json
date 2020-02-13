@@ -19,6 +19,6 @@
   "homepage": "https://github.com/lindentree/mastermind#readme",
   "dependencies": {
     "axios": "^0.19.2",
-    "prompt": "^1.0.0"
+    "prompts": "^2.3.0"
   }
 }

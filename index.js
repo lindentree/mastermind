@@ -1,20 +1,22 @@
 'use strict';
 
-const prompt = require('prompt');
+const prompts = require('prompts');
 const rng = require('./rng.js');
 
-prompt.start();
+
+let puzzle = null;
+let countdown = 0;
+
+const guess = null;
  
-  
-prompt.get(['username'], function (err, result) {
-    
-  console.log('Command-line input received:');
-  console.log('  username: ' + result.username);
-  rng.randomNumGenerator()
-    .then(response => {
-      console.log(response)
-    })
-  
-  
-    
-});
+(async () => {
+  const response = await prompts({
+    type: 'number',
+    name: 'value',
+    message: `What's your guess?`,
+    validate: value => (value >= 0 && value <= 7) ? `Thank you` : `Please guess between 0-7`
+  });
+ 
+  console.log(response);
+
+})();
