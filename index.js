@@ -1,23 +1,37 @@
 'use strict';
 
 const prompts = require('prompts');
-const rng = require('./rng.js');
+const term = require('terminal-kit').terminal;
+const rng = require('./rng');
+const utils = require('./utils');
 
 
 let puzzle = null;
-let countdown = 10;
+let limit = 7; //change depending on difficulty setting
+
+let allGuesses = {};
+let countdown = 10; //change depending on difficulty setting
 
 const guess = null;
+
+
+const displayGuessFunction = () => {
+  console.log(JSON.stringify(allGuesses, null, 1));
+}
  
 (async () => {
   const response = await prompts({
-    type: 'number',
-    name: 'value',
+    type: 'text',
+    name: 'guess',
     message: `What's your guess?`,
-    validate: value => (value >= 0 && value <= 7) ? `Thank you` : `Please guess between 0-7`
+    validate: value => (utils.guessValidator(value, limit)) ? `Thank you` : `Please guess a valid 4 digit combination`
   });
-  
+
   countdown -= 1;
-  console.log(response);
+  allGuesses[countdown] = response.guess
+  displayGuessFunction();
+  return;
 
 })();
+
+
