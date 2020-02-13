@@ -17,7 +17,7 @@ const parseStrIntoNums = (numStr) => {
 }
 
 const guessValidator = (numStr, limit) => {
-  if (numStr.length < 4) {
+  if (numStr.length !== 4)  {
     return false;
   }
 
@@ -31,11 +31,11 @@ const guessValidator = (numStr, limit) => {
 
 }
 
-const randomNumGenerator = async () => {
+const randomCodeGenerator = async () => {
   try {
-    const response = await axios.get('https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new');
+    const response = await axios.get('https://www.random.org/integers/?num=4&min=0&max=7&col=4&base=10&format=plain&rnd=new');
     const data = response.data;
-    return data
+    return data;
   } catch (error) {
     console.log(error);
   }
@@ -45,7 +45,7 @@ const randomNumGenerator = async () => {
 const mapArrToCountObj = arr => {
 
   let mapObj = {};
-  
+
   for (let i = 0; i < arr.length; i += 1) {
     if (mapObj[arr[i]]===undefined) {
       mapObj[arr[i]] = 1;
@@ -57,11 +57,16 @@ const mapArrToCountObj = arr => {
   return mapObj;
 }
 
+const mastermindWin = (arr1, arr2) => {
+
+}
+
+
 
 module.exports = {
   parseStrIntoNums,
   guessValidator,
-  randomNumGenerator,
+  randomCodeGenerator,
   mapArrToCountObj
 }
 

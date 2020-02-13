@@ -3,61 +3,88 @@
 //output feedback, eg correct numbers, correct numbers and locations, completely wrong etc.
 const utils = require('./utils');
 
+class Puzzle {//pass in arrays
+  constructor(puzzle, guess) {
+    this.puzzle = puzzle || [];
+    this.guess = guess || [];
+    this.correct = 0;
+    this.location = 0;
+    this.feedbackOptions = {
 
+      1: `You got ${this.correct} of the numbers correct!`,
+      2: `You got ${this.location} of the numbers correct in the right spots!`,
+      3: `You got 1 number correct and ${this.location} of the numbers correct in the right spots!`,
+      4: `You got ${this.correct} numbers correct and 1 number correct in the right spot!`,
+      5: `You got ${this.correct} of the numbers correct and ${this.location} of the numbers correct in the right spots!`,
+      6: `All the numbers you guessed were wrong.`,
+      7: `You solved it! Congratulations!`
 
-const Puzzle = function(puzzle, guess) {//pass in arrays
-
-  this.puzzle = puzzle;
-  this.guess = guess
-  this.correct = 0;
-  this.location = 0;
-  this.guessFeedback = '';
-  this.mapPuzzle = utils.mapArrToCountObj(this.puzzle);
-
-  
-
-  const feedbackOptions = {
-
-    1: `You got ${this.correct} of the numbers correct!`,
-    2: `You got ${this.location} of the numbers in the right spot!`,
-    3: `All the numbers you guessed were wrong.`,
-    4: `You solved it! Congratulations!`
+    }
+    this.guessFeedback = '';
+    this.allGuesses = this.allGuesses || {};
 
   }
+  
+  checkGuess () {
 
-}
-
-Puzzle.prototype.checkGuess = function() {
+  if(this.location===4) {
+    return this.feedbackOptions[7];
+  }
     
-    for (let i = 0; i < this.puzzle.length; i += 1) {
-      if (this.guess[i]===this.puzzle[i]) {
-        this.location += 1;
-        this.mapPuzzle[this.guess[i]] -= 1;
-      } else if (this.guess[i]!==this.puzzle[i] && this.mapPuzzle[this.guess[i]]) {
-        this.correct += 1;
-        this.mapPuzzle[this.guess[i]] -= 1;
+  for (let i = 0; i < this.puzzle.length; i += 1) {
 
+    this.guessFeedback = '';
+    this.correct = 0;
+    this.location = 0;
+      let mapPuzzle = utils.mapArrToCountObj(this.puzzle);
+      console.log(mapPuzzle);
+
+      if (this.guess[i]===this.puzzle[i] && this.guess[i]) {
+        this.location += 1;
+        mapPuzzle[this.guess[i]] -= 1;
+      } else if (this.guess[i]!==this.puzzle[i] && mapPuzzle[this.guess[i]]) {
+        this.correct += 1;
+        mapPuzzle[this.guess[i]] -= 1;
+
+      } else {
+        continue;
       }
     }
 
     console.log([this.correct, this.location]);
-    return [this.correct, this.location];
+    this.constructFeedback();
+    this.allGuesses[this.guess] = this.guessFeedback; 
+   
+  }
+
+
+  showAllGuesses () {
+    //console.log(JSON.stringify(this.allGuesses, null, 1));
+    console.dir(this.allGuesses);
+  }
+
+  constructFeedback () {
+    if (this.correct === 1 && this.location === 0) {
+      this.guessFeedback = 'You got a number correct!';
+    } else if (this.correct === 0 && this.location === 1) {
+      this.guessFeedback = 'You got a number and its location correct!';
+    } else if ((this.correct > 1) && this.location === 0) {
+      this.guessFeedback = this.feedbackOptions[1];
+    } else if (this.correct === 0 && this.location > 1) {
+      this.guessFeedback = this.feedbackOptions[2];
+    } else if (this.correct === 1 && this.location > 1){
+      this.guessFeedback = this.feedbackOptions[3];
+    } else if (this.correct > 1 && this.location === 1) {
+      this.guessFeedback = this.feedbackOptions[4];
+    } else if (this.correct > 1 && this.location > 1) {
+      this.guessFeedback = this.feedbackOptions[5];
+    } else {
+      this.guessFeedback = this.feedbackOptions[6];
+    }
+
 }
 
-Puzzle.prototype.showAllGuesses = function() {
-
+  
 }
-
-Puzzle.prototype.constructFeedback = function() {
-
-}
-
-Puzzle.prototype.displayFeedback = function() {
-
-}
-
-let test = new Puzzle([1, 2, 3, 2], [2, 2, 2, 2]);
-
-test.checkGuess();
 
 module.exports = Puzzle;

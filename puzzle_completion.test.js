@@ -10,3 +10,14 @@ test('Check guess feedback', () => {
     // unnecessary in this case, putting it here just to illustrate how to "unmock" a method
     spy.mockRestore();
 });
+
+test('Check guess puzzle_completion', () => {
+    let puzzle = new Puzzle([1, 2, 3, 2], [1, 2, 3, 2]);
+    let spy = jest.spyOn(puzzle, 'checkGuess').mockImplementation(() => [4, 0]);
+
+    expect(puzzle.checkGuess()).toEqual([4, 0]);
+   
+
+    // unnecessary in this case, putting it here just to illustrate how to "unmock" a method
+    spy.mockRestore();
+});
