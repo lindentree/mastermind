@@ -5,7 +5,7 @@ const rng = require('./rng.js');
 
 
 let puzzle = null;
-let countdown = 0;
+let countdown = 10;
 
 const guess = null;
  
@@ -16,7 +16,8 @@ const guess = null;
     message: `What's your guess?`,
     validate: value => (value >= 0 && value <= 7) ? `Thank you` : `Please guess between 0-7`
   });
- 
+  
+  countdown -= 1;
   console.log(response);
 
 })();

@@ -4,7 +4,7 @@
   "description": "CLI mastermind game",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node index.js"
   },
   "repository": {
@@ -20,5 +20,8 @@
   "dependencies": {
     "axios": "^0.19.2",
     "prompts": "^2.3.0"
+  },
+  "devDependencies": {
+    "jest": "^25.1.0"
   }
 }
