@@ -17,7 +17,7 @@ I built this project for the command line to focus more on implementing the logi
 
 The code structure was built in a TDD(Test-Driven Development) paradigm to the best of my ability, although I was unable to write tests for some of the more complex logic. I also did my best to make it more modular and support extensions or additional features later on.
 
-Currently when you run the game, a Mastermind logo is drawn in the terminal, the premise is explained, and you are prompted to try to guess the randomly generated code. If you enter digits outside of the set range, you will have to erase them and enter valid ones before you continue. All of your previous guesses and feedback on how close they were is shown every turn, as well as the number of guesses you have left. If you solve it or run out of guesses, the program will end and you will have to restart to try again with a new code. You can also forcibly exit the game with Ctrl+C(on Mac).
+Currently when you run the game, a Mastermind logo is drawn in the terminal, the premise is explained, and you are prompted to try to guess the randomly generated code. If you enter digits outside of the set range, you will have to erase them and enter valid ones before you continue. All of your previous guesses and feedback on how close they were are shown every turn, as well as the number of guesses you have left. If you solve it or run out of guesses, the program will end and you will have to restart to try again with a new code. You can also forcibly exit the game with Ctrl+C(on Mac).
 
 # Further Development
 
