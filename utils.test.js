@@ -16,16 +16,3 @@ test(`The numArray should be mapped to a count object`, () => {
   expect(utils.mapArrToCountObj([1,2,2,4])).toEqual({1:1, 2:2, 4:1});
   
 });
-
-
-test(`Should validate correct guesses`, () => {
-  expect(utils.mastermindWin([1,2,4,3], [1, 2, 4, 3])).toBe(true);
-  expect(utils.mastermindWin([1,2,4,3], [1, 2, 4, 5])).toBe(false);
-  
-});
-
-// test(`Should return correct counts`, () => {
-//   expect(utils.mastermindWin([1,2,4,3], [1, 2, 4, 3])).toBe(true);
-//   expect(utils.mastermindWin([1,2,4,3], [1, 2, 4, 5])).toBe(false);
-  
-// });

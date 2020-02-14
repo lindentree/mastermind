@@ -19,20 +19,16 @@ const setupGame = () => {
   term.drawImage('./assets/logo.jpeg', {shrink:{ width: term.width/4, height: term.height / 2 }})
     .then(()=>{
       console.log('Welcome to Mastermind!');
-  console.log(`The computer has produced a 4 digit code, each digit within the range 0-${limit}. Try to break it in ${countdown} guesses`);
+      console.log(`The computer has produced a 4 digit code, each digit within the range 0-${limit}. Try to solve it in ${countdown} guesses.`);
 
     });
   
-
   generateCode()
     .then((data)=>{
       activeCode = data;
       promptUser();
       
     });
-
-  
-  
 }
 
 const promptUser = () => {
@@ -45,40 +41,34 @@ const promptUser = () => {
           type: 'text',
           name: 'guess',
           message: `What's your guess?`,
-          validate: value => (!utils.guessValidator(value, limit)) ? `Please guess a valid 4 digit combination` : true
+          validate: value => (!utils.guessValidator(value, limit)) ? `Please guess a valid 4 digit combination.` : true
         })
 
-      response.guess = response.guess.trim();
-      let code = await activeCode;
-      code = code.trim().replace(/\t/g, '');
+        response.guess = response.guess.trim();
+        let code = await activeCode;
+        code = code.trim().replace(/\t/g, '');
 
+        let guess = utils.parseStrIntoNums(response.guess)
+        let puzzle = utils.parseStrIntoNums(code)
+        let puzzleObj = new Puzzle(puzzle, guess);
+        let check = puzzleObj.checkGuess(allGuesses);
 
-      let guess = utils.parseStrIntoNums(response.guess)
-      let puzzle = utils.parseStrIntoNums(code)
-
-
-      console.log('sanity', guess);
-      console.log('double', puzzle);
-
-      let puzzleObj = new Puzzle(puzzle, guess);
-      let check = puzzleObj.checkGuess(allGuesses);
-
-      if (check) {
-        console.log('You win!');
-        return;
-      } else {
-        countdown -= 1;
-        console.dir(allGuesses);
-
-        if (countdown===1) {
-          console.log(`You have only one guess left! Make it count!`);
+        if (check) {
+          console.log(`You guessed ${code} correctly! You win!`)
+          return;
         } else {
-          console.log(`You have ${countdown} guesses remaining.`);
-        }
-        
-        promptUser();
+          countdown -= 1;
+          console.dir(allGuesses);
 
-      }
+          if (countdown===1) {
+            console.log(`You have only one guess left! Make it count!`);
+          } else {
+            console.log(`You have ${countdown} guesses remaining.`);
+          }
+        
+          promptUser();
+
+        }
       
 
       } catch (error) {
@@ -86,9 +76,7 @@ const promptUser = () => {
         throw error
       }
       
-
     })().catch(e => { console.error(e) }); 
-
 
   } else {
     
@@ -99,17 +87,13 @@ const promptUser = () => {
   }
   
   return;
-  
-
 };
 
 
 const generateCode = async () => {
   const code = await utils.randomCodeGenerator();
   return code;
-
 }
-
 
 setupGame();
  
