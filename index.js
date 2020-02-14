@@ -14,8 +14,6 @@ let activeCode = '';
 let allGuesses = {};
 let countdown = 10; //change depending on difficulty setting
 
-const guess = null;
-
 const setupGame = () => {
   console.log('Welcome to Mastermind!');
   console.log('The computer has produced a 4 digit code. Try to break it in 10 guesses')
@@ -35,33 +33,48 @@ const promptUser = () => {
   if (countdown > 0) {
     (async () => {
 
-     
-      const response = await prompts({
+      try {
+        const response = await prompts({
       type: 'text',
       name: 'guess',
       message: `What's your guess?`,
       validate: value => (!utils.guessValidator(value, limit)) ? `Please guess a valid 4 digit combination` : true
-      });
+      })
 
       response.guess = response.guess.trim();
-      activeCode = activeCode.trim().replace(/\t/g, '');;
+      let code = await activeCode;
+      code = code.trim().replace(/\t/g, '')
 
 
       let guess = utils.parseStrIntoNums(response.guess)
-      let puzzle = utils.parseStrIntoNums(activeCode)
+      let puzzle = utils.parseStrIntoNums(code)
 
 
       console.log('sanity', guess);
       console.log('double', puzzle);
 
-      let puzzleObj = new Puzzle(activeCode, guess);
-      puzzleObj.checkGuess(allGuesses);
-      countdown -= 1;
-      console.log(allGuesses);
-      console.log(`You have ${countdown} guesses remaining.`)
-      promptUser();
+      let puzzleObj = new Puzzle(puzzle, guess);
+      let check = puzzleObj.checkGuess(allGuesses);
 
-    })();
+      if (check) {
+        console.log('You win!');
+        return;
+      } else {
+        countdown -= 1;
+        console.log(allGuesses);
+        console.log(`You have ${countdown} guesses remaining.`)
+        promptUser();
+
+      }
+      
+
+      } catch (error) {
+        console.log('That did not go well.')
+        throw error
+      }
+      
+
+    })().catch(e => { console.error(e) }); 
 
 
   } else {

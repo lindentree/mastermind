@@ -7,77 +7,73 @@ class Puzzle {//pass in arrays
   constructor(puzzle, guess) {
     this.puzzle = puzzle || [];
     this.guess = guess || [];
-    this.correct = 0;
-    this.location = 0;
-    this.feedbackOptions = {
-
-      1: `You got ${this.correct} of the numbers correct!`,
-      2: `You got ${this.location} of the numbers correct in the right spots!`,
-      3: `You got 1 number correct and ${this.location} of the numbers correct in the right spots!`,
-      4: `You got ${this.correct} numbers correct and 1 number correct in the right spot!`,
-      5: `You got ${this.correct} of the numbers correct and ${this.location} of the numbers correct in the right spots!`,
-      6: `All the numbers you guessed were wrong.`,
-      7: `You solved it! Congratulations!`
-
-    }
-    this.guessFeedback = '';
-    
-
+    this.correctVal = 0;
+    this.exactMatch = 0;
   }
+    
   
-  checkGuess (cache) {
+  checkGuess (cache, victory) {
 
-  for (let i = 0; i < this.puzzle.length; i += 1) {
+    let mapPuzzle = JSON.parse(JSON.stringify(this.puzzle));
+    let mapGuess = JSON.parse(JSON.stringify(this.guess));
+    console.log("internal", mapPuzzle,  mapGuess)
+    let curIndex = null;
 
-    this.guessFeedback = '';
-    this.correct = 0;
-    this.location = 0;
-      let mapPuzzle = utils.mapArrToCountObj(this.puzzle);
-      console.log(mapPuzzle);
+  for (let i = mapGuess.length - 1; i >= 0; i-=1) {//find the location/value matches first, filter them out
+    if(mapGuess[i] === mapPuzzle[i]) {
+      this.exactMatch += 1;
+      mapGuess.splice(i, 1);
+      mapPuzzle.splice(i, 1);
+    }    
+  }
 
-      if (this.guess[i]===this.puzzle[i]) {
-        this.location += 1;
-        mapPuzzle[arr2[i]] -= 1;
-      } else if (this.guess[[i]]!==this.puzzle[i] && mapPuzzle[this.guess[i]]!==undefined) {
-        this.correct += 1;
-        mapPuzzle[this.guess[i]] -= 1;
+  for(let i = 0; i < mapGuess.length; i+=1) {//find any left over values not in the right spot
+    curIndex = mapPuzzle.indexOf(mapGuess[i]);
+    if(curIndex !== -1) {
+      this.correctVal+= 1;
+      mapPuzzle.splice(curIndex, 1); //remove the matched value
+    }
+  }
 
-      } 
+  if(this.exactMatch === 4) {
+    return true; 
   }
 
 
-    if(this.location===4) {
-      return this.feedbackOptions[7];
-    }
-    
-
-    console.log([this.correct, this.location]);
+    console.log([this.correctVal, this.exactMatch]);
     this.constructFeedback();
     cache[this.guess] = this.guessFeedback; 
-   
+    this.correctVal = 0;
+    this.exactMatch = 0;
+    this.guessFeedback = '';
+    return false;
+  
   }
 
-
   constructFeedback () {
-    if (this.correct === 1 && this.location === 0) {
+    console.log(this.correctVal)
+
+    if (this.correctVal === 1 && this.exactMatch === 1) {
+      this.guessFeedback = 'You got a number correct and a number correct in its exact spot!';
+    } else if (this.correctVal === 1 && this.exactMatch === 0) {
       this.guessFeedback = 'You got a number correct!';
-    } else if (this.correct === 0 && this.location === 1) {
+    } else if (this.correctVal === 0 && this.exactMatch === 1) {
       this.guessFeedback = 'You got a number and its location correct!';
-    } else if ((this.correct > 1) && this.location === 0) {
-      this.guessFeedback = this.feedbackOptions[1];
-    } else if (this.correct === 0 && this.location > 1) {
-      this.guessFeedback = this.feedbackOptions[2];
-    } else if (this.correct === 1 && this.location > 1){
-      this.guessFeedback = this.feedbackOptions[3];
-    } else if (this.correct > 1 && this.location === 1) {
-      this.guessFeedback = this.feedbackOptions[4];
-    } else if (this.correct > 1 && this.location > 1) {
-      this.guessFeedback = this.feedbackOptions[5];
+    } else if ((this.correctVal > 1) && this.exactMatch === 0) {
+      this.guessFeedback = `You got ${this.correctVal} of the numbers correct!`
+    } else if (this.correctVal === 0 && this.exactMatch > 1) {
+      this.guessFeedback = `You got ${this.exactMatch} of the numbers correct in their exact spots!`
+    } else if (this.correctVal === 1 && this.exactMatch > 1){
+      this.guessFeedback = `You got a number correct and ${this.exactMatch} of the numbers correct in their exact spots!`
+    } else if (this.correctVal > 1 && this.exactMatch === 1) {
+      this.guessFeedback = `You got ${this.correctVal} of the numbers correct and a number correct in its exact spot!`
+    } else if (this.correctVal > 1 && this.exactMatch > 1) {
+      this.guessFeedback = `You got ${this.correctVal} of the numbers correct and ${this.exactMatch} of the numbers correct in their exact spots!`
     } else {
-      this.guessFeedback = this.feedbackOptions[6];
+      this.guessFeedback = `You got none of the numbers or locations correct!`;
     }
 
-}
+  }
 
   
 }
