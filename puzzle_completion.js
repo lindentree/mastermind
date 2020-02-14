@@ -42,7 +42,14 @@ class Puzzle {//pass in arrays
 
     console.log([this.correctVal, this.exactMatch]);
     this.constructFeedback();
-    cache[this.guess] = this.guessFeedback; 
+
+    if(cache[this.guess]) {
+      cache['null'] = `You guessed ${cache[this.guess]} again.`
+    } else {
+      cache[this.guess] = this.guessFeedback; 
+    }
+
+    
     this.correctVal = 0;
     this.exactMatch = 0;
     this.guessFeedback = '';
@@ -54,7 +61,7 @@ class Puzzle {//pass in arrays
     console.log(this.correctVal)
 
     if (this.correctVal === 1 && this.exactMatch === 1) {
-      this.guessFeedback = 'You got a number correct and a number correct in its exact spot!';
+      this.guessFeedback = 'You got one number correct and another in its exact spot!';
     } else if (this.correctVal === 1 && this.exactMatch === 0) {
       this.guessFeedback = 'You got a number correct!';
     } else if (this.correctVal === 0 && this.exactMatch === 1) {

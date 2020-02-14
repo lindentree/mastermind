@@ -15,8 +15,15 @@ let allGuesses = {};
 let countdown = 10; //change depending on difficulty setting
 
 const setupGame = () => {
-  console.log('Welcome to Mastermind!');
-  console.log('The computer has produced a 4 digit code. Try to break it in 10 guesses')
+
+  term.drawImage('./assets/logo.jpeg', {shrink:{ width: term.width/4, height: term.height / 2 }})
+    .then(()=>{
+      console.log('Welcome to Mastermind!');
+  console.log(`The computer has produced a 4 digit code, each digit within the range 0-${limit}. Try to break it in ${countdown} guesses`);
+
+    });
+  
+
   generateCode()
     .then((data)=>{
       activeCode = data;
@@ -35,15 +42,15 @@ const promptUser = () => {
 
       try {
         const response = await prompts({
-      type: 'text',
-      name: 'guess',
-      message: `What's your guess?`,
-      validate: value => (!utils.guessValidator(value, limit)) ? `Please guess a valid 4 digit combination` : true
-      })
+          type: 'text',
+          name: 'guess',
+          message: `What's your guess?`,
+          validate: value => (!utils.guessValidator(value, limit)) ? `Please guess a valid 4 digit combination` : true
+        })
 
       response.guess = response.guess.trim();
       let code = await activeCode;
-      code = code.trim().replace(/\t/g, '')
+      code = code.trim().replace(/\t/g, '');
 
 
       let guess = utils.parseStrIntoNums(response.guess)
@@ -61,8 +68,14 @@ const promptUser = () => {
         return;
       } else {
         countdown -= 1;
-        console.log(allGuesses);
-        console.log(`You have ${countdown} guesses remaining.`)
+        console.dir(allGuesses);
+
+        if (countdown===1) {
+          console.log(`You have only one guess left! Make it count!`);
+        } else {
+          console.log(`You have ${countdown} guesses remaining.`);
+        }
+        
         promptUser();
 
       }
@@ -79,6 +92,7 @@ const promptUser = () => {
 
   } else {
     
+    activeCode = activeCode.trim().replace(/\t/g, '');
     console.log(`Sorry, you're out of guesses.`);
     console.log(`The code was ${activeCode}`);
     return;
