@@ -6,7 +6,6 @@ const prompts = require('prompts');
 const term = require('terminal-kit').terminal;
 const utils = require('./utils');
 const Puzzle = require('./puzzle_completion');
-//const feedbackOptions = require('./dialogue');
 
 let limit = 7; //change depending on difficulty setting
 let activeCode = '';
@@ -88,7 +87,6 @@ const promptUser = () => {
   
   return;
 };
-
 
 const generateCode = async () => {
   const code = await utils.randomCodeGenerator();
