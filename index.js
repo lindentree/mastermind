@@ -18,7 +18,7 @@ const setupGame = () => {
   term.drawImage('./assets/logo.jpeg', {shrink:{ width: term.width/4, height: term.height / 2 }})
     .then(()=>{
       console.log('Welcome to Mastermind!');
-      console.log(`The computer has produced a 4 digit code, each digit within the range 0-${limit}. Try to solve it in ${countdown} guesses.`);
+      console.log(`The computer has produced a 4 digit code, each digit within the range 0-${limit}. Duplicate digits are possible. Try to solve it in ${countdown} guesses.`);
 
     });
   
