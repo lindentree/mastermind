@@ -12,7 +12,7 @@ class Puzzle {//pass in arrays
     this.exactMatch = 0;
   }
     
-  checkGuess (cache, victory) {
+  checkGuess (cache) {
 
     let mapPuzzle = JSON.parse(JSON.stringify(this.puzzle));
     let mapGuess = JSON.parse(JSON.stringify(this.guess));

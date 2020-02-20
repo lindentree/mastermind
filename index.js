@@ -18,16 +18,18 @@ const setupGame = () => {
   term.drawImage('./assets/logo.jpeg', {shrink:{ width: term.width/4, height: term.height / 2 }})
     .then(()=>{
       console.log('Welcome to Mastermind!');
-      console.log(`The computer has produced a 4 digit code, each digit within the range 0-${limit}. Duplicate digits are possible. Try to solve it in ${countdown} guesses.`);
+      setDifficulty();
+        
+
+          
 
     });
+
+   
+
   
-  generateCode()
-    .then((data)=>{
-      activeCode = data;
-      promptUser();
-      
-    });
+  
+  
 }
 
 const promptUser = () => {
@@ -88,8 +90,51 @@ const promptUser = () => {
   return;
 };
 
-const generateCode = async () => {
-  const code = await utils.randomCodeGenerator();
+const setDifficulty = () => {
+
+  (async () => {
+    //console.log('inner')
+    try {
+      const response = await prompts({
+        type: 'select',
+        name: 'value',
+        message: 'Choose a difficulty setting',
+        choices: [
+        { title: 'Normal', description: 'The default setting', value: 0 },
+        { title: 'Hard', description: 'Harder code, fewer guesses', value: 1 },
+        { title: 'Extreme', description: 'Good luck', value: 2 }
+        ],
+        initial: 0
+      })
+
+      if(response.value === 1) {
+        limit = 8
+        countdown = 8
+      } else if (response.value === 2) {
+        limit = 9
+        countdown = 5
+      }
+
+
+     console.log(`The computer has produced a 4 digit code, each digit within the range 0-${limit}. Duplicate digits are possible. Try to solve it in ${countdown} guesses.`);
+      generateCode()
+           .then((data)=>{
+           activeCode = data;
+           promptUser();
+      
+      });
+
+    } catch (error) {
+      //console.log('That did not go well.')
+      throw error
+    }
+
+  })().catch(e => { console.error(e) }); 
+}
+
+const generateCode = async (limit) => {
+
+  const code = await utils.randomCodeGenerator(limit);
   return code;
 }
 
