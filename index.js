@@ -19,16 +19,9 @@ const setupGame = () => {
     .then(()=>{
       console.log('Welcome to Mastermind!');
       setDifficulty();
-        
+            
 
-          
-
-    });
-
-   
-
-  
-  
+    });  
   
 }
 
@@ -117,15 +110,15 @@ const setDifficulty = () => {
 
 
      console.log(`The computer has produced a 4 digit code, each digit within the range 0-${limit}. Duplicate digits are possible. Try to solve it in ${countdown} guesses.`);
-      generateCode()
-           .then((data)=>{
-           activeCode = data;
-           promptUser();
+      generateCode(limit)
+        .then((data)=>{
+          activeCode = data;
+          promptUser();
       
-      });
+        });
 
     } catch (error) {
-      //console.log('That did not go well.')
+        console.log('That did not go well.')
       throw error
     }
 

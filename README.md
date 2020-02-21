@@ -24,6 +24,6 @@ If you solve it or run out of guesses, the program will end and you will have to
 # Further Development
 
 1. Add a retry prompt - [ ]
-2. Add the ability to change the difficulty level - [ ]
+2. Add the ability to change the difficulty level - [x]
 3. Add more graphics - [ ]
 
